@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Junatutka – asemien aikataulut</title>
+  <meta name="description" content="Suomen rautatieasemien reaaliaikaiset lähtevät ja saapuvat junat Digitrafficin avoimesta rajapinnasta.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="logo">🚆 Junatutka</h1>
+      <p class="tagline">Reaaliaikaiset aikataulut kaikilta Suomen rautatieasemilta</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hakulomake: käsittelijät lisätään dynaamisesti app.js:ssä -->
+    <form id="search-form" class="search-panel" novalidate>
+      <div class="field field-wide">
+        <label for="station-search">Hae asemaa nimellä</label>
+        <input type="text" id="station-search" list="station-list"
+               placeholder="esim. Tampere, Pasila, Oulu…" autocomplete="off">
+        <datalist id="station-list"></datalist>
+      </div>
+
+      <div class="field field-wide">
+        <label for="station-select">…tai valitse listasta</label>
+        <select id="station-select" disabled>
+          <option value="">Ladataan asemia…</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <span class="label">Näytä</span>
+        <div class="toggle" role="radiogroup" aria-label="Lähtevät vai saapuvat">
+          <input type="radio" name="direction" id="dir-dep" value="DEPARTURE" checked>
+          <label for="dir-dep">Lähtevät</label>
+          <input type="radio" name="direction" id="dir-arr" value="ARRIVAL">
+          <label for="dir-arr">Saapuvat</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="count-select">Määrä</label>
+        <select id="count-select">
+          <option value="10">10</option>
+          <option value="20" selected>20</option>
+          <option value="40">40</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="type-select">Junatyyppi</label>
+        <select id="type-select">
+          <option value="all">Kaikki</option>
+          <option value="Commuter">Lähijunat</option>
+          <option value="Long-distance">Kaukojunat</option>
+        </select>
+      </div>
+
+      <div class="field field-button">
+        <button type="submit" id="search-btn">Hae junat</button>
+      </div>
+    </form>
+
+    <!-- Tila- ja virheilmoitukset -->
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+
+    <!-- Tulokset -->
+    <section id="results" class="results" hidden>
+      <div class="results-header">
+        <div>
+          <h2 id="results-title"></h2>
+          <p id="results-meta" class="meta"></p>
+        </div>
+        <label class="auto-refresh">
+          <input type="checkbox" id="auto-refresh" checked>
+          Päivitä automaattisesti (1 min)
+        </label>
+      </div>
+      <ul id="train-list" class="train-list"></ul>
+    </section>
+  </main>
+
+  <!-- Junan reittinäkymä (modaali) -->
+  <div id="modal" class="modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" data-close aria-label="Sulje">×</button>
+      <h2 id="modal-title"></h2>
+      <p id="modal-meta" class="meta"></p>
+      <ol id="route-list" class="route-list"></ol>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      Lähde: <a href="https://www.digitraffic.fi/rautatieliikenne/" target="_blank" rel="noopener">Fintraffic / digitraffic.fi</a>, lisenssi CC 4.0 BY
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
